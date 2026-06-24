@@ -10,7 +10,8 @@
 
 The Pi only **captures, hardware-encodes, and serves**. All inference and post-processing happen **off-node**, so the Zero stays fast and the stream stays fluent.
 
-> **Status:** pre-release. The first signed binary release is being built — see the development tracker. This page documents the intended node and its usage.
+> **Status:** binary releases are published from the private development
+> pipeline. Install from the latest release asset.
 
 ## Why this exists
 
@@ -26,10 +27,13 @@ Streaming a Pi camera "fluently" on hardware this small is mostly about **not wa
 - **Default 720p30** tuned for fluent distribution; resolution/fps/bitrate configurable
 - Reference: **Pi Zero 2 W** (64-bit Raspberry Pi OS Bookworm); original **Pi Zero / Zero W** supported as a constrained profile
 
-## Install (intended UX)
+## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jhihweijhan/rpi-camera-rtsp-node/main/install.sh | bash
+curl -fsSL https://github.com/jhihweijhan/rpi-camera-rtsp-node/releases/latest/download/install.sh | \
+  bash -s -- \
+    --read-username viewer \
+    --read-password '<your-password>'
 ```
 
 This installs the node binary + bundled MediaMTX, writes a config, and enables the `systemd` service. Then your stream is available at:
@@ -53,6 +57,12 @@ go2rtc then re-publishes the stream as WebRTC/HLS/MJPEG to your viewers, dashboa
 - **Raspberry Pi Zero 2 W** (recommended) or original Pi Zero / Zero W
 - A **CSI** camera module (libcamera-supported sensor: OV5647 / IMX219 / IMX477 / IMX708, etc.)
 - Raspberry Pi OS Bookworm
+
+## Question and Answer
+
+See [Question and Answer](./docs/question-and-answer.md) for installation notes,
+stream credential handling, testing from another computer, and the Pi 3B +
+OV5647 troubleshooting case study.
 
 ## License
 
