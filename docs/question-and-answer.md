@@ -1,5 +1,11 @@
 # Question and Answer
 
+<!-- README-I18N:START -->
+
+**English** | [繁體中文](./question-and-answer.zh-TW.md)
+
+<!-- README-I18N:END -->
+
 This document records practical installation and troubleshooting notes for
 `rpi-camera-rtsp-node`. It is the public source of truth for user-facing Q&A.
 

@@ -13,6 +13,11 @@ The Pi only **captures, hardware-encodes, and serves**. All inference and post-p
 > **Status:** binary releases are published from the private development
 > pipeline. Install from the latest release asset.
 
+> **Documentation:** read the public Q&A before troubleshooting installs or CSI
+> camera detection:
+> **[Question and Answer](./docs/question-and-answer.md)** |
+> **[繁體中文 Q&A](./docs/question-and-answer.zh-TW.md)**.
+
 ## Why this exists
 
 Streaming a Pi camera "fluently" on hardware this small is mostly about **not wasting the Pi's one superpower: the VideoCore hardware H.264 encoder.** This node drives that encoder directly (via MediaMTX's native `rpiCamera` source), encodes **once**, and fans the stream out to many consumers — keeping CPU low and latency sub-second on a LAN.
@@ -60,9 +65,11 @@ go2rtc then re-publishes the stream as WebRTC/HLS/MJPEG to your viewers, dashboa
 
 ## Question and Answer
 
-See [Question and Answer](./docs/question-and-answer.md) for installation notes,
-stream credential handling, testing from another computer, and the Pi 3B +
-OV5647 troubleshooting case study.
+Read the public Q&A for installation notes, stream credential handling, testing
+from another computer, and the Pi 3B + OV5647 troubleshooting case study:
+
+- **[Question and Answer](./docs/question-and-answer.md)**
+- **[繁體中文 Q&A](./docs/question-and-answer.zh-TW.md)**
 
 ## License
 
