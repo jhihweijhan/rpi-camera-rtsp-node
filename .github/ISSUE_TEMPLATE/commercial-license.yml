@@ -1,0 +1,55 @@
+name: Commercial inquiry
+description: Non-sensitive commercial licensing or SI/integrator questions.
+title: "[Commercial inquiry]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template only for non-sensitive commercial licensing or integration questions.
+
+        Do not post credentials, RTSP URLs, private network topology, camera locations,
+        customer names, procurement-sensitive information, unpublished tender details,
+        or NDA-covered information in public GitHub issues.
+
+        For pricing, procurement, NDA, site topology, customer information, or deployment
+        details, email: jhihweijhan@gmail.com
+  - type: dropdown
+    id: inquiry_type
+    attributes:
+      label: Inquiry type
+      options:
+        - Commercial license
+        - SI / low-voltage / security integration
+        - OEM / redistribution
+        - Public-sector evaluation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: deployment_context
+    attributes:
+      label: Non-sensitive deployment context
+      description: Describe the use case without exposing customer names, locations, credentials, private IPs, or procurement-sensitive information.
+      placeholder: "Example: Need a controllable RTSP source for an AI/NVR proof-of-concept using Raspberry Pi CSI cameras."
+    validations:
+      required: true
+  - type: dropdown
+    id: supply_chain
+    attributes:
+      label: Supply-chain concern
+      options:
+        - Need general supply-chain-conscious deployment guidance
+        - Need non-China hardware self-verification guidance
+        - Not relevant
+        - Not sure yet
+    validations:
+      required: true
+  - type: dropdown
+    id: next_step
+    attributes:
+      label: Preferred next step
+      options:
+        - Public answer is fine
+        - Please continue by email
+    validations:
+      required: true
