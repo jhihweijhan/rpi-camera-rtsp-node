@@ -1,0 +1,19 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">rpi-camera-rtsp-node icon</title>
+  <desc id="desc">A Raspberry Pi camera node sending a clean RTSP stream.</desc>
+  <rect width="256" height="256" rx="44" fill="#0F172A"/>
+  <path d="M54 84C54 73.5066 62.5066 65 73 65H183C193.493 65 202 73.5066 202 84V158C202 168.493 193.493 177 183 177H73C62.5066 177 54 168.493 54 158V84Z" fill="#F8FAFC"/>
+  <path d="M82 65L95 43H140L153 65H82Z" fill="#E2E8F0"/>
+  <circle cx="128" cy="121" r="42" fill="#1E293B"/>
+  <circle cx="128" cy="121" r="28" fill="#38BDF8"/>
+  <circle cx="118" cy="111" r="9" fill="#F8FAFC" fill-opacity="0.85"/>
+  <path d="M63 196H112" stroke="#38BDF8" stroke-width="10" stroke-linecap="round"/>
+  <path d="M144 196H193" stroke="#38BDF8" stroke-width="10" stroke-linecap="round"/>
+  <path d="M128 177V214" stroke="#38BDF8" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="54" cy="196" r="10" fill="#22C55E"/>
+  <circle cx="202" cy="196" r="10" fill="#22C55E"/>
+  <circle cx="128" cy="224" r="10" fill="#22C55E"/>
+  <path d="M206 101L224 91V151L206 141V101Z" fill="#94A3B8"/>
+  <path d="M32 96C32 85 41 76 52 76" stroke="#22C55E" stroke-width="8" stroke-linecap="round"/>
+  <path d="M224 180C224 191 215 200 204 200" stroke="#22C55E" stroke-width="8" stroke-linecap="round"/>
+</svg>

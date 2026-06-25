@@ -1,33 +1,39 @@
-# rpi-camera-rtsp-node
+<div align="center">
+  <img src="./docs/assets/rpi-camera-rtsp-node.svg" width="112" alt="rpi-camera-rtsp-node icon">
+  <h1>rpi-camera-rtsp-node</h1>
+  <p><strong>Turn a Raspberry Pi CSI camera into a controllable, supply-chain-conscious RTSP node.</strong></p>
+  <p>
+    <a href="https://github.com/jhihweijhan/rpi-camera-rtsp-node/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/jhihweijhan/rpi-camera-rtsp-node?style=flat-square"></a>
+    <img alt="Raspberry Pi" src="https://img.shields.io/badge/Raspberry%20Pi-Zero%202%20W-c51a4a?style=flat-square&logo=raspberrypi&logoColor=white">
+    <img alt="Streams" src="https://img.shields.io/badge/RTSP%20%2F%20WebRTC%20%2F%20HLS-H.264-2f855a?style=flat-square">
+    <a href="./LICENSE"><img alt="License" src="https://img.shields.io/badge/license-non--commercial-blue?style=flat-square"></a>
+  </p>
+  <p><a href="./README.md">繁體中文</a> | <strong>English</strong></p>
+</div>
 
-<!-- README-I18N:START -->
+`rpi-camera-rtsp-node` is a Raspberry Pi camera node for SI, low-voltage,
+security integration, and commercial/public-sector evaluation. It turns a
+Raspberry Pi Zero / Zero 2 W with a CSI camera into a self-hosted RTSP / WebRTC
+/ HLS source for go2rtc, NVRs, Frigate, YOLO v10+, and other AI/CV hosts.
 
-[繁體中文](./README.md) | **English**
+> [!IMPORTANT]
+> This is not a full commercial IP camera and does not guarantee that a user's
+> full BOM is non-China-made. It provides a rebuildable software node, a clear
+> supply-chain verification direction, and a commercial licensing entry point.
 
-<!-- README-I18N:END -->
+[Get started](#get-started) • [Use cases](#use-cases) • [Architecture](#architecture)
+• [Supply chain](#supply-chain-boundary) • [Commercial licensing](#commercial-licensing)
+• [Q&A](#qa-and-troubleshooting)
 
-## Supply-chain-conscious RTSP node for commercial video systems
+## What you get
 
-`rpi-camera-rtsp-node` turns a Raspberry Pi Zero / Zero 2 W with a CSI camera
-into a self-hosted RTSP / WebRTC / HLS video node.
+- **Hardware H.264 source**: the Pi only captures, hardware-encodes, and serves.
+- **Multi-protocol output**: RTSP, WebRTC, and HLS from one stream path.
+- **Low-resource node**: designed for Raspberry Pi Zero 2 W, with a constrained Pi Zero profile.
+- **Consumer-side AI/NVR**: inference, recording, alerting, fan-out, and central management stay off-node.
+- **Supply-chain-conscious deployment**: works with integrator-led verification through distributors such as RS, DigiKey, and Mouser.
 
-It is not a full commercial IP camera replacement. It is a clean, hardware-H.264
-RTSP source for go2rtc, NVRs, Frigate, YOLO v10+, and other AI/CV hosts.
-
-The Pi node only captures, hardware-encodes, and serves. Inference, recording,
-alerts, fan-out, and central management belong on consumer-side machines.
-
-## Who it is for
-
-- SI, low-voltage, and security integrators who need a controllable RTSP source.
-- Commercial or public-sector deployments that need to reduce China-made camera
-  device risk on internal networks.
-- AI/NVR projects that need a Raspberry Pi CSI camera source for go2rtc, NVRs,
-  YOLO hosts, or CV pipelines.
-- Personal, household, non-profit educational, and non-profit deployments that
-  need a small, rebuildable Raspberry Pi camera node.
-
-## One-line install
+## Get started
 
 Run this on the Raspberry Pi:
 
@@ -42,8 +48,6 @@ The installer deploys the Node binary, bundled MediaMTX, config, and `systemd`
 service. You choose the stream password; the installer does not generate or
 print it later.
 
-## Stream endpoints
-
 Default stream path: `cam`.
 
 ```text
@@ -52,7 +56,46 @@ WebRTC: http://<pi-host>.local:8889/cam/
 HLS:    http://<pi-host>.local:8888/cam/index.m3u8
 ```
 
-Example go2rtc source:
+Test RTSP from another computer:
+
+```bash
+ffplay "rtsp://viewer:<read-password>@<node-host>:8554/cam"
+```
+
+## Use cases
+
+| Use case | Value |
+| --- | --- |
+| SI / low-voltage / security integration | A controllable RTSP source for NVR and AI systems |
+| Commercial and public-sector evaluation | Reduced black-box camera device risk on internal networks |
+| AI/NVR pipelines | Stable input for go2rtc, Frigate, YOLO, or custom CV pipelines |
+| Household and non-profit use | Low-cost, self-hosted, reinstallable Raspberry Pi camera node |
+
+This project is not a fit when you need a full warranty, PoE enclosure, cloud
+management, vendor SLA, or an already-delivered central fleet platform.
+Fleet Layer / central management is roadmap, not a current capability.
+
+## Architecture
+
+MediaMTX owns the media plane. The Node Agent only renders config, manages the
+service, advertises mDNS, and checks camera status. It does not read, transcode,
+or process video frames.
+
+```text
+CSI camera
+   |
+   v
+Raspberry Pi Node
+   |  hardware H.264 encode
+   v
+RTSP / WebRTC / HLS
+   |
+   +--> go2rtc / NVR / Frigate
+   +--> YOLO / AI-CV host
+   +--> internal dashboard
+```
+
+go2rtc example:
 
 ```yaml
 streams:
@@ -60,51 +103,19 @@ streams:
     - rtsp://viewer:<read-password>@<node-host>:8554/cam
 ```
 
-## Architecture
+## Supply-chain boundary
 
-MediaMTX owns the media plane through its native `rpiCamera` source. The Node
-Agent only handles control and provisioning: render config, manage service,
-advertise mDNS, and report status.
+This project can support deployments where the integrator buys hardware through
+standard distributors such as RS, DigiKey, Mouser, or similar channels, then
+verifies fixed part numbers, country-of-origin evidence, receiving labels, and
+BOM records.
 
-```text
-CSI camera -> Raspberry Pi Node -> RTSP/WebRTC/HLS -> go2rtc / NVR / YOLO host
-                  |                    |
-                  |                    +-- read credentials + optional IP allowlist
-                  +-- hardware H.264 encode, no Python video frame path
-```
+> [!NOTE]
+> Hardware origin, part numbers, receiving labels, procurement evidence, and BOM
+> compliance are the integrator's responsibility. This project does not provide
+> public-procurement, security-compliance, or country-of-origin certification.
 
-## Supply-chain and licensing boundaries
-
-This project provides a supply-chain-conscious deployment direction. Integrators
-may choose standard distributors such as RS, DigiKey, and Mouser, then verify
-part numbers, country-of-origin labels, receiving records, and BOM compliance
-for their own deployment.
-
-This project does not guarantee that a user's full BOM is non-China-made and
-does not provide public-procurement, security-compliance, or country-of-origin
-certification.
-
-Read the Traditional Chinese checklist:
-
-- [Supply-chain self-verification checklist](./docs/supply-chain-verification.zh-TW.md)
-
-## Commercial licensing
-
-Personal, household, non-profit educational, and other non-commercial use may be
-free under the public license terms. Commercial deployment, government procurement projects,
-SI/low-voltage/security integration, OEM/redistribution, and enterprise internal
-operations require a separate commercial license.
-
-Commercial licensing and integration inquiries:
-
-- Non-sensitive general questions:
-  [Commercial inquiry](https://github.com/jhihweijhan/rpi-camera-rtsp-node/issues/new?template=commercial-license.yml)
-- Pricing, procurement, NDA, site topology, customer information, or deployment
-  details: <jhihweijhan@gmail.com>
-
-Do not post credentials, RTSP URLs, private network topology, camera locations,
-customer names, procurement-sensitive information, or NDA-covered information in
-public GitHub issues.
+Read the checklist: [Supply-chain self-verification checklist](./docs/supply-chain-verification.zh-TW.md).
 
 ## Hardware profiles
 
@@ -117,22 +128,31 @@ public GitHub issues.
 The OS must see the CSI camera through `rpicam-hello --list-cameras` or
 `libcamera-hello --list-cameras`.
 
-## Roadmap
+## Commercial licensing
 
-Today each Node is self-contained and does not depend on a central coordinator.
+Personal, household, non-profit educational, and other non-commercial use may be
+free under the public license terms. Commercial deployment, government
+procurement projects, SI/low-voltage/security integration, OEM/redistribution,
+and enterprise internal operations require a separate commercial license.
 
-Future direction: a consumer-side Fleet Layer that manages many Nodes, pulls
-RTSP streams into machines with real compute, runs YOLO-style inference, and
-shows a central view. This is roadmap language, not a current Node capability.
+- Non-sensitive general questions:
+  [Commercial inquiry](https://github.com/jhihweijhan/rpi-camera-rtsp-node/issues/new?template=commercial-license.yml)
+- Pricing, procurement, NDA, site topology, customer information, or deployment
+  details: <jhihweijhan@gmail.com>
+
+> [!WARNING]
+> Do not post credentials, RTSP URLs, private network topology, camera locations,
+> customer names, procurement-sensitive information, or NDA-covered information
+> in public GitHub issues.
 
 ## Q&A and troubleshooting
 
 - [Question and Answer](./docs/question-and-answer.md)
 - [繁體中文 Q&A](./docs/question-and-answer.zh-TW.md)
 
-## License
+Common diagnostics:
 
-Proprietary, **non-commercial** freeware. Free for personal, household,
-non-profit educational, and other non-commercial use. Commercial use requires a
-separate written commercial license. See [LICENSE](./LICENSE). Bundled MediaMTX
-remains governed by its own MIT license.
+```bash
+rpicam-hello --list-cameras
+sudo systemctl status rpi-camera-mediamtx.service
+```
